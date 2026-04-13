@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Detalle del empleo{% endblock %}
+
+{% block content %}
+    <h1>
+        {{ job.titulo }}
+    </h1>
+    <ul>
+        <li>Empresa: {{ job.empresa }}</li>
+            <li>Ubicación: {{ job.ubicacion }}</li>
+            <li>Descripción: {{ job.descripcion }}</li>
+            <li>Fecha de publicación: {{ job.fecha_publicacion }}</li>
+            <li>Fecha de scraping: {{ job.fecha_scraping }}</li>
+            <li>URL: <a href="{{ job.url_original }}" target="_blank">{{ job.url_original }}</a></li>
+            <li>Fuente: {{ job.source }}</li>
+        </ul>
+  {% endblock %}
