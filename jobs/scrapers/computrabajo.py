@@ -43,19 +43,17 @@ class ComputrabajoScraper(BaseScraper):
             for oferta in ofertas:
                 titulo_el = oferta.query_selector("h2.fs18")
                 empresa_el = oferta.query_selector(".fc_base.t_ellipsis")
-                ubicacion_el = oferta.query_selector(".fs16.fc_base.mt5 span.mr10")
                 url_el = oferta.query_selector("h2.fs18 a")
 
                 titulo = titulo_el.inner_text() if titulo_el else ""
                 empresa = empresa_el.inner_text() if empresa_el else ""
-                ubicacion = ubicacion_el.inner_text() if ubicacion_el else ""
                 href = url_el.get_attribute("href") if url_el else ""
                 url = "https://ar.computrabajo.com" + href if href else ""
 
                 resultados.append({
                     "titulo": titulo,
                     "empresa": empresa,
-                    "ubicacion": ubicacion,
+                    "ubicacion": "Paraná, Entre Ríos",
                     "url": url,
                     "descripcion": "",
                 })

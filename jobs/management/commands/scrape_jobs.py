@@ -1,15 +1,16 @@
 from django.core.management.base import BaseCommand
 from jobs.scrapers.computrabajo import ComputrabajoScraper
 from jobs.scrapers.zonajobs import ZonaJobsScrapper
-
+from jobs.scrapers.portal_empleo import PortalEmpleoScraper
 
 class Command(BaseCommand):
     help = 'Scrapea ofertas laborales de todas las fuentes'
 
     def handle(self, *args, **options):
         scrapers = [
-            #ComputrabajoScraper(),
-            ZonaJobsScrapper(),
+           #ComputrabajoScraper(),
+           #ZonaJobsScrapper(),
+            PortalEmpleoScraper()
         ]
         print(f"Scrapers a ejecutar: {scrapers}")
         for scraper in scrapers:

@@ -39,19 +39,17 @@ class ZonaJobsScrapper(BaseScraper):
 
             for tarjeta in tarjetas:
                 titulo_el = tarjeta.query_selector("h2")
-                empresa_el = tarjeta.query_selector("span h3")
-                ubicacion_el = tarjeta.query_selector("i[aria-label='Ubicación'] + span h3")
+                h3_elements = tarjeta.query_selector_all("h3")
                 href = tarjeta.get_attribute("href")
 
                 titulo = titulo_el.inner_text().strip() if titulo_el else ""
-                empresa = empresa_el.inner_text().strip() if empresa_el else ""
-                ubicacion = ubicacion_el.inner_text().strip() if ubicacion_el else ""
+                empresa = h3_elements[1].inner_text().strip() if len(h3_elements) > 1 else ""
                 url = "https://www.zonajobs.com.ar" + href if href else ""
 
                 resultados.append({
                     "titulo": titulo,
                     "empresa": empresa,
-                    "ubicacion": ubicacion,
+                    "ubicacion": "Paraná, Entre Ríos",
                     "url": url
                 })
 
