@@ -6,6 +6,7 @@ class JobListView(ListView):
     template_name = "job_list.html"
     context_object_name = "jobs"
     queryset = Job.objects.all().order_by("score")
+    paginate_by = 20
 
 class JobDetailView(DetailView):
     model = Job
