@@ -8,8 +8,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         scrapers = [
-           #ComputrabajoScraper(),
-           #ZonaJobsScrapper(),
+           ComputrabajoScraper(),
+           ZonaJobsScrapper(),
             PortalEmpleoScraper()
         ]
         print(f"Scrapers a ejecutar: {scrapers}")

@@ -32,10 +32,17 @@ class Job(models.Model):
     fecha_scraping = models.DateTimeField(auto_now_add=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
+    score = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.titulo} — {self.empresa}"
 
+class ScoringKeyWord(models.Model):
+    termino = models.CharField(max_length=100)
+    peso = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.termino} ({self.peso})"
 
 class JobTechnology(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)

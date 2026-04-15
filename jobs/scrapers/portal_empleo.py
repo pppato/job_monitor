@@ -1,6 +1,7 @@
 from .base import BaseScraper
 from playwright.sync_api import sync_playwright
 from jobs.models import Job, Source
+from jobs.scoring import calcular_score
 
 class PortalEmpleoScraper(BaseScraper):
     URL = "https://portalempleo.gob.ar/OfertasLaborales?provincia=ENTRE+RIOS&municipio=PARANA&page-number={}"
@@ -22,6 +23,7 @@ class PortalEmpleoScraper(BaseScraper):
                             "empresa": oferta["empresa"],
                             "ubicacion": "Paraná, Entre Ríos",
                             "source": source,
+                            "score": calcular_score(oferta["titulo"])
                         }
                     )
                     print(f"Guardado: {oferta['titulo']} - {oferta['empresa']}")

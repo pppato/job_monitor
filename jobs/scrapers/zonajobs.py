@@ -1,6 +1,7 @@
 from .base import BaseScraper
 from playwright.sync_api import sync_playwright
 from jobs.models import Job, Source
+from jobs.scoring import calcular_score
 
 class ZonaJobsScrapper(BaseScraper):
 
@@ -20,7 +21,8 @@ class ZonaJobsScrapper(BaseScraper):
                             "titulo": oferta["titulo"],
                             "empresa": oferta["empresa"],
                             "ubicacion": oferta["ubicacion"],
-                            "source": source
+                            "source": source,
+                            "score": calcular_score(oferta["titulo"])
                         }
                     )
                     print(f"Oferta '{oferta['titulo']} - {oferta['empresa']}' guardada.")

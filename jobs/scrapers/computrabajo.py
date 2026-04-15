@@ -1,7 +1,7 @@
 from .base import BaseScraper
 from playwright.sync_api import sync_playwright
 from jobs.models import Job, Source
-
+from jobs.scoring import calcular_score
 
 class ComputrabajoScraper(BaseScraper):
     URL = "https://ar.computrabajo.com/empleos-en-entre-rios-en-parana"
@@ -24,6 +24,7 @@ class ComputrabajoScraper(BaseScraper):
                             "descripcion": oferta["descripcion"],
                             "ubicacion": oferta["ubicacion"],
                             "source": source,
+                            "score": calcular_score(oferta["titulo"])
                         }
                     )
                     print(f"Guardado: {oferta['titulo']} - {oferta['empresa']}")

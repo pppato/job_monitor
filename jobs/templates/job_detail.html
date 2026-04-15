@@ -2,139 +2,47 @@
 
 {% block title %}{{ job.titulo }}{% endblock %}
 
-{% block extra_css %}
-<style>
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 0.85rem;
-        margin-bottom: 2rem;
-        transition: color 0.2s;
-    }
-
-    .back-link:hover { color: var(--accent); }
-
-    .detail-header {
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .detail-source {
-        font-size: 0.72rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 0.8rem;
-    }
-
-    .detail-title {
-        font-family: 'Syne', sans-serif;
-        font-weight: 800;
-        font-size: 2rem;
-        letter-spacing: -0.5px;
-        line-height: 1.2;
-        margin-bottom: 0.8rem;
-    }
-
-    .detail-empresa {
-        font-size: 1.1rem;
-        color: var(--muted);
-    }
-
-    .detail-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .detail-field {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1rem 1.2rem;
-    }
-
-    .detail-field-label {
-        font-size: 0.7rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 0.4rem;
-    }
-
-    .detail-field-value {
-        font-size: 0.95rem;
-        font-weight: 500;
-    }
-
-    .detail-descripcion {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        line-height: 1.7;
-        color: var(--muted);
-        font-size: 0.95rem;
-    }
-
-    .btn-original {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--accent);
-        color: #000;
-        font-family: 'Syne', sans-serif;
-        font-weight: 700;
-        font-size: 0.9rem;
-        padding: 0.8rem 1.6rem;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: opacity 0.2s;
-    }
-
-    .btn-original:hover { opacity: 0.85; }
-</style>
-{% endblock %}
-
 {% block content %}
-<a href="{% url 'job_list' %}" class="back-link">← Volver a empleos</a>
+<a href="{% url 'job_list' %}" class="text-muted small text-decoration-none">← Volver a empleos</a>
 
-<div class="detail-header">
-    <div class="detail-source">{{ job.source }}</div>
-    <h1 class="detail-title">{{ job.titulo }}</h1>
-    {% if job.empresa %}<p class="detail-empresa">{{ job.empresa }}</p>{% endif %}
+<div class="card border shadow-sm mt-3">
+    <div class="card-body p-4">
+        <div class="mb-3">
+            <span class="badge bg-primary mb-2">{{ job.source }}</span>
+            <h1 class="h3 fw-bold">{{ job.titulo }}</h1>
+            {% if job.empresa %}<p class="text-muted mb-0">{{ job.empresa }}</p>{% endif %}
+        </div>
+
+        <hr>
+
+        <div class="row g-3 mb-3">
+            {% if job.ubicacion %}
+            <div class="col-auto">
+                <small class="text-muted d-block">Ubicación</small>
+                <span>{{ job.ubicacion }}</span>
+            </div>
+            {% endif %}
+            {% if job.fecha_publicacion %}
+            <div class="col-auto">
+                <small class="text-muted d-block">Publicado</small>
+                <span>{{ job.fecha_publicacion }}</span>
+            </div>
+            {% endif %}
+            <div class="col-auto">
+                <small class="text-muted d-block">Scrapeado</small>
+                <span>{{ job.fecha_scraping|date:"d/m/Y" }}</span>
+            </div>
+        </div>
+
+        {% if job.descripcion %}
+        <hr>
+        <p>{{ job.descripcion }}</p>
+        {% endif %}
+
+        <hr>
+        <a href="{{ job.url_original }}" target="_blank" class="btn btn-primary">
+            Ver oferta original →
+        </a>
+    </div>
 </div>
-
-<div class="detail-grid">
-    {% if job.ubicacion %}
-    <div class="detail-field">
-        <div class="detail-field-label">Ubicación</div>
-        <div class="detail-field-value">{{ job.ubicacion }}</div>
-    </div>
-    {% endif %}
-    {% if job.fecha_publicacion %}
-    <div class="detail-field">
-        <div class="detail-field-label">Publicado</div>
-        <div class="detail-field-value">{{ job.fecha_publicacion }}</div>
-    </div>
-    {% endif %}
-    <div class="detail-field">
-        <div class="detail-field-label">Scrapeado</div>
-        <div class="detail-field-value">{{ job.fecha_scraping|date:"d/m/Y" }}</div>
-    </div>
-</div>
-
-{% if job.descripcion %}
-<div class="detail-descripcion">{{ job.descripcion }}</div>
-{% endif %}
-
-<a href="{{ job.url_original }}" target="_blank" class="btn-original">
-    Ver oferta original →
-</a>
 {% endblock %}
