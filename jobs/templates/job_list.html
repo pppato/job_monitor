@@ -7,7 +7,30 @@
     <h1 class="h3 fw-bold">Empleos en Paraná</h1>
     <p class="text-muted">{{ jobs|length }} oferta{% if jobs|length != 1 %}s{% endif %} encontrada{% if jobs|length != 1 %}s{% endif %}</p>
 </div>
-
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input 
+            type="text" 
+            name="q" 
+            value="{{ busqueda_actual }}" 
+            placeholder="Buscar por título o empresa..." 
+            class="form-control"
+        >
+    </div>
+    <div class="col-md-4">
+        <select name="fuente" class="form-select">
+            <option value="">Todas las fuentes</option>
+            {% for fuente in fuentes %}
+            <option value="{{ fuente.nombre }}" {% if fuente.nombre == fuente_actual %}selected{% endif %}>
+                {{ fuente.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
 <div class="d-flex flex-column gap-3">
     {% for job in jobs %}
     <a href="{% url 'job_detail' job.pk %}" class="text-decoration-none">
