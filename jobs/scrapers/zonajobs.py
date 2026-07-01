@@ -46,7 +46,7 @@ class ZonaJobsScrapper(BaseScraper):
 
                 titulo = titulo_el.inner_text().strip() if titulo_el else ""
                 empresa = h3_elements[1].inner_text().strip() if len(h3_elements) > 1 else ""
-                url = "https://www.zonajobs.com.ar" + href if href else ""
+                url = href if href.startswith("http") else "https://www.zonajobs.com.ar" + href
 
                 resultados.append({
                     "titulo": titulo,
