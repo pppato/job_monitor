@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i_5+6z3iftpq@7q=7curo&^y-w)p=1%1yk93b$!x%2!tl*24k0"
+# Para un proyecto local personal está bien usar un valor fijo.
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-i_5+6z3iftpq@7q=7curo&^y-w)p=1%1yk93b$!x%2!tl*24k0")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG está activado por defecto en local.
+DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+SESSION_COOKIE_HTTPONLY = True
+
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 
 # Application definition
