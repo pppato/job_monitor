@@ -34,10 +34,27 @@ class ComputrabajoScraper(BaseScraper):
     def fetch_ofertas(self):
         resultados = []
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
-            page = browser.new_page()
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/124.0.0.0 Safari/537.36"
+                ),
+                viewport={"width": 1366, "height": 768},
+                locale="es-AR",
+            )
+            page = context.new_page()
             page.goto(self.URL, timeout = 60000)
-            page.wait_for_selector(".box_offer")
+            try:
+                page.wait_for_selector(".box_offer", timeout=30000)
+            except Exception:
+                page.screenshot(path="debug_computrabajo.png", full_page=True)
+                with open("debug_computrabajo.html", "w", encoding="utf-8") as f:
+                    f.write(page.content())
+                print("No se encontró .box_offer. Revisá debug_computrabajo.png y debug_computrabajo.html")
+                browser.close()
+                return resultados
 
             ofertas = page.query_selector_all(".box_offer")
 
@@ -60,4 +77,3 @@ class ComputrabajoScraper(BaseScraper):
                 })
             browser.close()
         return resultados
-
