@@ -1,3 +1,4 @@
+import django_filters
 from rest_framework import viewsets
 from .models import Job, Source, Category, Technology
 from .serializers import (
@@ -8,19 +9,19 @@ from .serializers import (
 )
 
 
+class JobFilter(django_filters.FilterSet):
+    fuente = django_filters.CharFilter(field_name="source__nombre", lookup_expr="iexact")
+
+    class Meta:
+        model = Job
+        fields = ["fuente", "category"]
+
+
 class JobViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Job.objects.all().order_by("-score")
     serializer_class = JobSerializer
-
-    def get_queryset(self):
-        queryset = Job.objects.all().order_by("-score")
-        fuente = self.request.query_params.get("fuente")
-        busqueda = self.request.query_params.get("q")
-
-        if fuente:
-            queryset = queryset.filter(source__nombre=fuente)
-        if busqueda:
-            queryset = queryset.filter(titulo__icontains=busqueda)
-        return queryset
+    filterset_class = JobFilter
+    search_fields = ["titulo"]
 
 
 class SourceViewSet(viewsets.ReadOnlyModelViewSet):
