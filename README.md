@@ -99,7 +99,7 @@ python manage.py test jobs
 ## Roadmap
 
 - [x] **Etapa 1** — Django clásico, scraping con Playwright, listado y filtro de ofertas, admin, tests
-- [ ] **Etapa 2** — Exponer la API con Django REST Framework
+- [x] **Etapa 2** — Exponer la API con Django REST Framework
 - [ ] **Etapa 3** — Frontend en React
 - [ ] Deploy en Railway
 
